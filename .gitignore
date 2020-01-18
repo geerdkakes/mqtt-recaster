@@ -1,0 +1,5 @@
+variableconfigmap.yaml
+node_modules/
+apply.sh
+build.sh
+repost.sh

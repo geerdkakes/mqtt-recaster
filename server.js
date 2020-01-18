@@ -1,8 +1,8 @@
-var mqtt=require('mqtt');
+var mqtt = require('mqtt');
 const args = require('minimist')(process.argv.slice(2));
 var nodeCleanup = require('node-cleanup');
 var port;
-var receivingSecureUrl = false;
+var receivingSecure = false;
 /*
  * receiving server options: 
  * -h url (if ommited mqtt://localhost is used)
@@ -49,12 +49,12 @@ var mqtt_url = (typeof args.h === 'undefined' || args.h === null) ? "mqtt://loca
 var client_id = (typeof args.i === 'undefined' || args.i === null) ? "mqttjs02uni" : args.i;
 
 if (mqtt_url.substring(0,5) === "mqtts") {
-    secure = true;
+    receivingSecure = true;
  }
 
 if (typeof args.p === 'undefined' || args.p === null) {
     // no port specified, we guess the port
-    if (secure) {
+    if (receivingSecure) {
         port = 8883;
     } else {
         port = 1883;
@@ -72,7 +72,7 @@ var receivingCa = (typeof args.r === 'undefined' || args.r === null) ? null : fs
 var receivingRejectUnauthorized = (typeof args.a === 'undefined' || args.a === null || args.a === 'false') ? false : true;
 
 var sendingUrl = (typeof args.sendingUrl === 'undefined' || args.sendingUrl === null) ? "mqtt://localhost" : args.sendingUrl;
-var sendingSecure;
+var sendingSecure = false;
 var sendingPort;
 var receivingTopic = (typeof args.t === 'undefined' || args.t === null) ? "#" : args.t;
 var verbose = (typeof args.v === 'undefined' || args.v === null) ? 0 : args.v;
@@ -135,7 +135,7 @@ mqtt_sending_options.rejectUnauthorized = sendingRejectUnauthorised;
 
 var message_options = {
     retain:false,
-    qos:(typeof args.q === 'undefined' || args.q === null) ? 0 : args.q
+    qos:sendingQos
 };
 
 

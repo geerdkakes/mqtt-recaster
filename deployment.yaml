@@ -1,0 +1,39 @@
+---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      labels:
+        app: mqtt-recaster1
+      name: mqtt-recaster1
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: mqtt-recaster1
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+        type: RollingUpdate
+      template:
+        metadata:
+          labels:
+            app: mqtt-recaster1
+        spec:
+          restartPolicy: Always
+          imagePullSecrets:
+          - name: baldleifdockersecret
+          containers:
+          - image: <<--recaster-image-->>
+            imagePullPolicy: IfNotPresent
+            name: mqtt-recaster1
+            resources:
+              limits:
+                cpu: 200m
+                memory: 200Mi
+              requests:
+                cpu: 200m
+                memory: 200Mi
+            envFrom:
+                - configMapRef:
+                    name: mqtt-recaster1
