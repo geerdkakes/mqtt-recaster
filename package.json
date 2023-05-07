@@ -6,7 +6,7 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "node-cleanup": "^2.1.2",
-    "mqtt": "^3.0.0"
+    "mqtt": "^4.3.7"
   },
   "devDependencies": {},
   "scripts": {
